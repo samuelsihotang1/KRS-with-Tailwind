@@ -4,10 +4,9 @@ $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 $routes = [
   '/' => 'controllers/index.php',
   '/edit-krs' => 'controllers/edit-krs.php',
-  '/contact' => 'controllers/contact.php',
+  '/courses' => 'controllers/courses.php',
   '/login' => 'controllers/login.php',
   '/register' => 'controllers/register.php',
-  '/view-krs' => 'controllers/view-krs.php',
 ];
 
 function routeToController($uri, $routes)

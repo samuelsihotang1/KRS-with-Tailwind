@@ -4,7 +4,8 @@
 ?>
 
 <?php
-$nim = $_GET['nim'];
+// $nim = $_GET['nim'];
+$nim = '01234567';
 $config = require "config.php";
 $db = new Database($config['database']);
 ?>
@@ -59,7 +60,8 @@ $db = new Database($config['database']);
 
 <?php
 
-$nim = $_GET['nim'];
+// $nim = $_GET['nim'];
+$nim = '01234567';
 $config = require "config.php";
 $db = new Database($config['database']);
 
@@ -97,7 +99,7 @@ if (isset($_POST['selectedCourses'])) {
 
     $db->connect($deleteQuery);
   }
-  echo '<script>window.location.replace("view-krs?nim=' . $nim . '");</script>';
+  echo '<script>window.location.replace("/");</script>';
 }
 ?>
 
