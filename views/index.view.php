@@ -30,7 +30,7 @@ $courses = $db->connect("SELECT * FROM courses INNER JOIN $tableTarget ON course
               <tr>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">Name</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Code</th>
-                <th scope="col" class="py-3.5 text-sm font-semibold text-indigo-600 hover:text-indigo-900"><a href="/edit-krs">Edit</a></th>
+                <th scope="col" class="py-3.5 text-sm font-semibold text-indigo-600 hover:text-indigo-900"><a href="/editcrs">Edit</a></th>
               </tr>
             </thead>
             <tbody class="bg-white">
