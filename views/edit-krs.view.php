@@ -1,6 +1,11 @@
 <?php require "partials/head.php"; ?>
 <?php require "partials/nav.php"; ?>
-<?php //require "partials/banner.php"; 
+
+<?php
+if (!isset($_SESSION['login'])) {
+  echo '<script>window.location.replace("/login");</script>';
+  exit;
+}
 ?>
 
 <?php

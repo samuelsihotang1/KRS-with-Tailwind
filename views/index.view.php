@@ -1,11 +1,16 @@
 <?php require "partials/head.php"; ?>
 <?php require "partials/nav.php"; ?>
-<?php //require "partials/banner.php"; 
+
+<?php
+if (!isset($_SESSION['login'])) {
+  echo '<script>window.location.replace("/login");</script>';
+  exit;
+}
 ?>
 
 <?php
 // $nim = $_GET['nim'];
-$nim = '01234567';
+$nim = $_SESSION['username'];
 $config = require "config.php";
 $db = new Database($config['database']);
 $courses = $db->connect("SELECT * FROM courses INNER JOIN krs ON courses.code_crs = krs.code_crs WHERE krs.nim = '$nim' ORDER BY courses.code_crs")->fetchAll(PDO::FETCH_ASSOC);
@@ -13,7 +18,7 @@ $courses = $db->connect("SELECT * FROM courses INNER JOIN krs ON courses.code_cr
 <main>
   <div class="mx-auto max-w-2xl sm:px-6 lg:px-8">
     <div class="mt-8 flex items-center justify-center gap-x-6">
-      <legend class="text-base font-semibold text-gray-900">Your Courses</legend>
+      <legend class="text-base font-semibold text-gray-900">Your Courses as <?= ($_SESSION['typeUser'] == 'student') ? 'Student' : 'Lecturer' ?></legend>
     </div>
 
     <div class="mt-8 flow-root">
@@ -24,7 +29,7 @@ $courses = $db->connect("SELECT * FROM courses INNER JOIN krs ON courses.code_cr
               <tr>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">Name</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Code</th>
-                <th scope="col" class="py-3.5 text-sm font-semibold text-indigo-600 hover:text-indigo-900"><a href="/edit-krs">Edit`</a></th>
+                <th scope="col" class="py-3.5 text-sm font-semibold text-indigo-600 hover:text-indigo-900"><a href="/edit-krs">Edit</a></th>
               </tr>
             </thead>
             <tbody class="bg-white">

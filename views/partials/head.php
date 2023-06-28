@@ -8,7 +8,11 @@
   <link rel="stylesheet" href="/css/components.css">
   <script src="/js/components.js"></script>
   <script type="module" src="/js/iframe-alpine-964dceff.js"></script>
-</head>
+</head> 
+
+<?php
+session_start();
+?>
 
 <body class="bg-white h-full">
   <div class="bg-white min-h-full">

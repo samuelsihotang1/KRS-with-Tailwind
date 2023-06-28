@@ -11,13 +11,13 @@ if (!isset($_SESSION['login'])) {
 <?php
 $config = require "config.php";
 $db = new Database($config['database']);
-$courses = $db->connect("SELECT * FROM courses")->fetchAll(PDO::FETCH_ASSOC);
+$lecturers = $db->connect("SELECT * FROM lecturers")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <main>
   <div class="mx-auto max-w-2xl sm:px-6 lg:px-8">
     <div class="mt-8 flex items-center justify-center gap-x-6">
-      <legend class="text-base font-semibold text-gray-900">All Courses</legend>
+      <legend class="text-base font-semibold text-gray-900">All Lecturers</legend>
     </div>
 
     <div class="mt-8 flow-root">
@@ -27,18 +27,18 @@ $courses = $db->connect("SELECT * FROM courses")->fetchAll(PDO::FETCH_ASSOC);
             <thead>
               <tr>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">Name</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Code</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">NIDN</th>
               </tr>
             </thead>
             <tbody class="bg-white">
               <?php
-              foreach ($courses as $course) :
-                $code_crs = $course['code_crs'];
-                $name = $course['name_crs'];
+              foreach ($lecturers as $lecturer) :
+                $NIDN = $lecturer['nidn'];
+                $name = $lecturer['name_lct'];
               ?>
                 <tr class="even:bg-gray-50">
                   <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3"><?= $name ?></td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><?= $code_crs ?></td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><?= $NIDN ?></td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
