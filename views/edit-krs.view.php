@@ -9,15 +9,16 @@ if (!isset($_SESSION['login'])) {
 ?>
 
 <?php
-// $nim = $_GET['nim'];
-$nim = '01234567';
+$username = $_SESSION['username'];
 $config = require "config.php";
 $db = new Database($config['database']);
+$tableTarget = ($_SESSION['typeUser'] == 'student') ? 'krs' : 'rpd';
+$primaryKeyTarget = ($_SESSION['typeUser'] == 'student') ? 'nim' : 'nidn';
 ?>
 <main>
   <div class="mx-auto max-w-2xl sm:px-6 lg:px-8">
     <div class="mt-8 flex items-center justify-center gap-x-6">
-      <legend class="text-base font-semibold text-gray-900">Editing Your Courses</legend>
+      <legend class="text-base font-semibold text-gray-900">Editing Your Courses as <?= ($_SESSION['typeUser'] == 'student') ? 'Student' : 'Lecturer' ?></legend>
     </div>
 
     <div class="mt-8 flow-root">
@@ -34,7 +35,7 @@ $db = new Database($config['database']);
               <tbody class="bg-white">
                 <?php
                 $courses = $db->connect("SELECT * FROM courses");
-                $selectedCourses = $db->connect("SELECT code_crs FROM krs WHERE nim = $nim")->fetchAll(PDO::FETCH_COLUMN);
+                $selectedCourses = $db->connect("SELECT code_crs FROM $tableTarget WHERE $primaryKeyTarget = $username")->fetchAll(PDO::FETCH_COLUMN);
                 $id = 0;
                 foreach ($courses as $course) :
                   $code_crs = $course['code_crs'];
@@ -64,16 +65,11 @@ $db = new Database($config['database']);
 
 
 <?php
-
-// $nim = $_GET['nim'];
-$nim = '01234567';
-$config = require "config.php";
-$db = new Database($config['database']);
-
 if (isset($_POST['selectedCourses'])) {
   $selectedCourses = $_POST['selectedCourses'];
 
-  $existingCourses = $db->connect("SELECT code_crs FROM krs WHERE nim = '$nim'")->fetchAll(PDO::FETCH_COLUMN);
+  $existingCourses = $db->connect("SELECT code_crs FROM $tableTarget WHERE $primaryKeyTarget = $username")->fetchAll(PDO::FETCH_COLUMN);
+
 
   // Remove duplicate courses from the selected courses
   $selectedCourses = array_unique($selectedCourses);
@@ -84,11 +80,11 @@ if (isset($_POST['selectedCourses'])) {
 
   // Insert new courses
   if (!empty($coursesToInsert)) {
-    $insertQuery = "INSERT INTO krs (nim, code_crs) VALUES ";
+    $insertQuery = "INSERT INTO $tableTarget ($primaryKeyTarget, code_crs) VALUES ";
     $insertValues = [];
 
     foreach ($coursesToInsert as $courseId) {
-      $insertValues[] = "('$nim', '$courseId')";
+      $insertValues[] = "('$username', '$courseId')";
     }
 
     $insertQuery .= implode(',', $insertValues);
@@ -98,7 +94,7 @@ if (isset($_POST['selectedCourses'])) {
 
   // Delete courses
   if (!empty($coursesToDelete)) {
-    $deleteQuery = "DELETE FROM krs WHERE nim = '$nim' AND code_crs IN ('";
+    $deleteQuery = "DELETE FROM $tableTarget WHERE $primaryKeyTarget = $username AND code_crs IN ('";
     $deleteQuery .= implode("', '", $coursesToDelete);
     $deleteQuery .= "')";
 

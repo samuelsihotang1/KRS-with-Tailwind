@@ -9,11 +9,12 @@ if (!isset($_SESSION['login'])) {
 ?>
 
 <?php
-// $nim = $_GET['nim'];
-$nim = $_SESSION['username'];
+$username = $_SESSION['username'];
 $config = require "config.php";
 $db = new Database($config['database']);
-$courses = $db->connect("SELECT * FROM courses INNER JOIN krs ON courses.code_crs = krs.code_crs WHERE krs.nim = '$nim' ORDER BY courses.code_crs")->fetchAll(PDO::FETCH_ASSOC);
+$tableTarget = ($_SESSION['typeUser'] == 'student') ? 'krs' : 'rpd';
+$primaryKeyTarget = ($_SESSION['typeUser'] == 'student') ? 'nim' : 'nidn';
+$courses = $db->connect("SELECT * FROM courses INNER JOIN $tableTarget ON courses.code_crs = $tableTarget.code_crs WHERE $tableTarget.$primaryKeyTarget = '$username' ORDER BY courses.code_crs")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <main>
   <div class="mx-auto max-w-2xl sm:px-6 lg:px-8">
